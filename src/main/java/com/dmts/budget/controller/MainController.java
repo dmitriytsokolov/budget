@@ -47,12 +47,17 @@ public class MainController {
         return "login";
     }
 
+    @GetMapping("/accessDenied")
+    public String accessDenied() {
+        return "accessDenied";
+    }
+
     @GetMapping("/admin")
     public String admin() {
         return "admin";
     }
 
-    @PreAuthorize("hasRole('User')")
+    @PreAuthorize("hasRole('User') or authentication.name == 'dmts'")
     @GetMapping("/user")
     public String user() {
         return "user";

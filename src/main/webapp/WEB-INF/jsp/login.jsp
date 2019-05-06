@@ -10,8 +10,6 @@
     <meta charset="utf-8">
     <title>Log in with your account</title>
 
-    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
 </head>
 
 <body>
@@ -32,9 +30,17 @@
             <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
         </div>
     </form>
+
+    <form action="/signin/facebook" method="GET">
+        <input type="hidden" name="scope" value="public_profile" />
+        <input type="submit" value="Login using Facebook"/>
+    </form>
+
+    <form action="/connect/facebook" method="GET">
+        <input type="hidden" name="scope" value="public_profile,email" />
+        <input type="submit" value="Login using Facebook"/>
+    </form>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>
