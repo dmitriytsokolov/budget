@@ -31,12 +31,8 @@
         </div>
     </form>
 
-    <form action="/signin/facebook" method="GET">
-        <input type="hidden" name="scope" value="public_profile" />
-        <input type="submit" value="Login using Facebook"/>
-    </form>
-
-    <form action="/connect/facebook" method="GET">
+    <form action="/signin/facebook" method="POST">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <input type="hidden" name="scope" value="public_profile,email" />
         <input type="submit" value="Login using Facebook"/>
     </form>

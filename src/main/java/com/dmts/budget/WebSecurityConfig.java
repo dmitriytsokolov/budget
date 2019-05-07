@@ -31,6 +31,7 @@ import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
+import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
 import org.springframework.social.connect.support.ConnectionFactoryRegistry;
 import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.facebook.api.Facebook;
@@ -66,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements S
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login*","/signin/**","/signup/**", "/connect/**", "/connectToFB").permitAll()
+                .antMatchers("/login*","/signin/**","/signup/**", "/connect/**", "/connectToFB", "/cust").permitAll()
                 .antMatchers("/resources/**", "/registration").permitAll()
                 .antMatchers("/admin").access("hasRole('Admin')")
                 .anyRequest().authenticated()
@@ -110,8 +111,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements S
     @Primary
     @Scope(value="singleton", proxyMode=ScopedProxyMode.INTERFACES)
     public UsersConnectionRepository usersConnectionRepository() {
-        JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(
-                dataSource, connectionFactoryLocator(), Encryptors.noOpText());
+        InMemoryUsersConnectionRepository repository = new InMemoryUsersConnectionRepository(connectionFactoryLocator());
         repository.setConnectionSignUp(facebookConnectionSignUp);
         return repository;
     }
@@ -122,19 +122,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements S
                 usersConnectionRepository(), new FacebookSignInAdapter());
     }
 
-    //
-    // SocialConfigurer implementation methods
-    //
-
     @Override
     public void addConnectionFactories(ConnectionFactoryConfigurer cfConfig, Environment env) {
         cfConfig.addConnectionFactory(new FacebookConnectionFactory(env.getProperty("facebook.appKey"), env.getProperty("facebook.appSecret")));
     }
 
-
-    /**
-     * Singleton data access object providing access to connections across all users.
-     */
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());

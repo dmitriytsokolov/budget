@@ -18,6 +18,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private long fbUserId;
     private String username;
     @Size(min = 8, max = 20, message = "password.size")
     @PasswordConstraint
@@ -31,6 +32,14 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public long getFbUserId() {
+        return fbUserId;
+    }
+
+    public void setFbUserId(long fbUserId) {
+        this.fbUserId = fbUserId;
     }
 
     public String getUsername() {

@@ -31,6 +31,7 @@
             <column name="role_id" type="INT" >
                 <constraints nullable="false" foreignKeyName="fk_role_id" references="role(id)" />
             </column>
+            <column name="fb_user_id" type="BIGINT" />
         </createTable>
     </changeSet>
 
