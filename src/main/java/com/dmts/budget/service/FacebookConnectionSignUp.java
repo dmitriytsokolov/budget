@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class FacebookConnectionSignUp implements ConnectionSignUp {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -20,13 +20,14 @@ public class FacebookConnectionSignUp implements ConnectionSignUp {
     @Override
     public String execute(Connection<?> connection) {
         long providerUserId = Long.valueOf(connection.getKey().getProviderUserId());
-        User user = userRepository.findByFbUserId(providerUserId);
+        User user = userService.findByFbUserId(providerUserId);
         if(user == null) {
             user = new User();
             user.setUsername(connection.getDisplayName());
-            user.setPassword("");
+            user.setPassword(String.valueOf(providerUserId));
+            user.setFbUserId(providerUserId);
             user.setRole(roleRepository.findByRoleName("User"));
-            userRepository.save(user);
+            userService.save(user);
         }
         return user.getUsername();
     }
