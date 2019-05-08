@@ -23,7 +23,7 @@
             <column name="username" value="dmts"/>
             <column name="password" value="$2a$10$9eMEvB45CrDrVCzu.ylFm.HnvxulCLwetihTnVgw8CDYrzVjg4xv2"/>
             <column name="role_id" value="1"/>
-            <column name="fb_user_id" value="2346609142288691"/>
+            <column name="email" value="dmitriy.tsokolov@gmail.com"/>
         </insert>
     </changeSet>
 

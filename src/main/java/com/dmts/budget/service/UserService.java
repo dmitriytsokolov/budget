@@ -6,7 +6,7 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    User findByFbUserId(long fbUserId);
+    User findByEmail(String email);
 
     boolean save(User user);
 }

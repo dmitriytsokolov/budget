@@ -119,7 +119,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements S
     @Bean
     public ProviderSignInController providerSignInController() {
         return new ProviderSignInController(connectionFactoryLocator(),
-                usersConnectionRepository(), new FacebookSignInAdapter());
+                usersConnectionRepository(), new FacebookSignInAdapter(userDetailsService));
     }
 
     @Override
@@ -149,10 +149,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements S
     public Facebook facebook(ConnectionRepository repository) {
         Connection<Facebook> connection = repository.findPrimaryConnection(Facebook.class);
         return connection != null ? connection.getApi() : null;
-    }
-
-    @Bean
-    public ProviderSignInController providerSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository) {
-        return new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, new FacebookSignInAdapter());
     }
 }

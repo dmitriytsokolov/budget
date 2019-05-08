@@ -57,7 +57,7 @@ public class MainController {
         return "admin";
     }
 
-    @PreAuthorize("hasRole('User') or authentication.name == 'dmts'")
+    @PreAuthorize("hasAnyRole('User') or authentication.name == 'dmts'")
     @GetMapping("/user")
     public String user() {
         return "user";

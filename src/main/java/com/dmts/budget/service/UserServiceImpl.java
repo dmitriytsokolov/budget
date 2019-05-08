@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByFbUserId(long fbUserId) {
-        return userRepository.findByFbUserId(fbUserId);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

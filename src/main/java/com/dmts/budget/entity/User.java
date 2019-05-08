@@ -18,11 +18,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private long fbUserId;
     private String username;
     @Size(min = 8, max = 20, message = "password.size")
     @PasswordConstraint
     private String password;
+    private String email;
     @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
@@ -34,12 +34,12 @@ public class User {
         this.id = id;
     }
 
-    public long getFbUserId() {
-        return fbUserId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setFbUserId(long fbUserId) {
-        this.fbUserId = fbUserId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
