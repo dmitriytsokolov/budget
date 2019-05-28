@@ -5,10 +5,12 @@ import com.dmts.budget.service.FacebookConnectionSignUp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -45,6 +47,7 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @EnableSocial
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Import(SwaggerConfig.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements SocialConfigurer {
 
     @Inject
@@ -63,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements S
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+/*
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -80,6 +83,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements S
                 .permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/accessDenied");
+    }*/
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.httpBasic()
+                .and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/user/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/**").access("hasRole('Admin')")
+                .and()
+                .csrf().disable()
+                .formLogin().disable();
     }
 
     @Bean
