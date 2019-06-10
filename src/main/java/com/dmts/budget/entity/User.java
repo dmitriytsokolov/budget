@@ -17,7 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String username;
     @Size(min = 8, max = 20, message = "password.size")
     @PasswordConstraint
@@ -26,11 +26,11 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

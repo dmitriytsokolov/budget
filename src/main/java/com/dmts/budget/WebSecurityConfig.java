@@ -1,6 +1,8 @@
 package com.dmts.budget;
 
 import com.dmts.budget.adapter.FacebookSignInAdapter;
+import com.dmts.budget.auditor.SpringSecurityAuditorAware;
+import com.dmts.budget.entity.User;
 import com.dmts.budget.service.FacebookConnectionSignUp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +12,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -47,6 +51,7 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @EnableSocial
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 @Import(SwaggerConfig.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements SocialConfigurer {
 
@@ -164,5 +169,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements S
     public Facebook facebook(ConnectionRepository repository) {
         Connection<Facebook> connection = repository.findPrimaryConnection(Facebook.class);
         return connection != null ? connection.getApi() : null;
+    }
+
+    @Bean
+    public AuditorAware<User> auditorProvider() {
+        return new SpringSecurityAuditorAware();
     }
 }

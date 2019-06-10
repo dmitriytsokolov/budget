@@ -1,22 +1,20 @@
 package com.dmts.budget.service;
 
+import com.dmts.budget.dto.UserDto;
 import com.dmts.budget.entity.User;
 import com.dmts.budget.repository.RoleRepository;
 import com.dmts.budget.repository.UserRepository;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-
-    private static final int PAGE_SIZE = 2;
 
     @Autowired
     private UserRepository userRepository;
@@ -42,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(int id) {
+    public User findById(long id) {
         return userRepository.findById(id);
     }
 
@@ -52,12 +50,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll(int page) {
-        return userRepository.findAll(PageRequest.of(--page, PAGE_SIZE)).getContent();
+    public List<User> findAll(Pageable page) {
+        return userRepository.findAll(page).getContent();
     }
 
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
+    @Override
+    public UserDto findByEmailQuery(String email) {
+        return userRepository.findByEmailQuery(email);
+    }
+
+    @Override
+    public List<User> findAllByExample(Example<User> userExample) {
+        return userRepository.findAll(userExample);
+    }
+
 }

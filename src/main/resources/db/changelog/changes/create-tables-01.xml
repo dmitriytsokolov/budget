@@ -35,4 +35,20 @@
         </createTable>
     </changeSet>
 
+    <changeSet author="dmts" id="3">
+        <createTable tableName="auditing_entity">
+            <column autoIncrement="true" name="some_id" type="INT">
+                <constraints unique="true" primaryKey="true" primaryKeyName="PK_SOME_ID"/>
+            </column>
+            <column name="some_field" type="VARCHAR(255)">
+                <constraints unique="true"/>
+            </column>
+            <column name="user_id" type="INT" >
+                <constraints nullable="true" foreignKeyName="fk_user_id" references="user(id)" />
+            </column>
+            <column name="created_date" type="TIMESTAMP" />
+            <column name="version" type="INT" />
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>
